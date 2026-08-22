@@ -1,0 +1,58 @@
+generator client {
+  provider            = "prisma-client"
+  output              = "../generated/prisma"
+  importFileExtension = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                String              @id @default(cuid())
+  email             String?             @unique
+  password          String?
+  username          String
+  balance           Balance[]
+  OnRampTransaction OnRampTransaction[]
+  number            String?             @unique
+  sentTransfers       p2pTransfer[] @relation(name:"FromUser")
+  receivedTransfers  p2pTransfer[] @relation(name:"ToUser")
+}
+
+model OnRampTransaction {
+  id        String       @id @unique @default(cuid())
+  status    OnRampStatus
+  token     String       @unique
+  provider  String
+  amount    Int
+  startTime DateTime
+  userId    String      
+  user      User         @relation(fields: [userId], references: [id])
+}
+
+model Balance {
+  id     String @id @default(cuid())
+  userId String @unique
+  amount Int
+  locked Int
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model p2pTransfer{
+   id    String @id @default(cuid())
+   amount Int
+   timestamp DateTime
+   fromUserId String
+   fromUser   User  @relation(name:"FromUser" ,fields:[fromUserId],references:[id])
+   toUserId  String
+   toUser  User @relation(name:"ToUser", fields:[toUserId],references:[id])
+}
+
+
+
+enum OnRampStatus {
+  Success
+  Failure
+  Processing
+}

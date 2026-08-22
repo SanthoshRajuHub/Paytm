@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./*": "./src/*.tsx"
+    "./*": "./src/*.tsx",
+    "./global.css": "./src/global.css"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -16,10 +17,14 @@
     "@types/node": "^22.15.3",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
+    "autoprefixer": "^10.5.4",
     "eslint": "^9.39.1",
+    "postcss": "^8.5.25",
+    "tailwindcss": "^4.3.3",
     "typescript": "5.9.2"
   },
   "dependencies": {
+    "next-auth": "^4.24.15",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   }

@@ -24,6 +24,15 @@
   },
   "workspaces": [
     "apps/*",
-    "packages/*"
-  ]
+    "packages/*",
+    "bank-webhook/*"
+  ],
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/bcrypt": "^6.0.0",
+    "bcrypt": "^6.0.0",
+    "next-auth": "^4.24.15",
+    "postcss": "^8.5.25",
+    "tailwindcss": "^4.3.3"
+  }
 }
