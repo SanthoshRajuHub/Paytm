@@ -6,7 +6,7 @@ export default async function Page(){
   const session=await getServerSession(authOptions);
 
   if(session?.user){
-    redirect('/p2p_Transfer');
+    redirect('/transfer');
   }
   else {
     redirect('/api/auth/signin');
