@@ -13,27 +13,6 @@ jobs:
       - name: Check Out Repo
         uses: actions/checkout@v4
 
-      - name: Check Docker credentials
-        env:
-          DOCKER_USERNAME: ${{ secrets.SANTHOSHRAJU06_USERNAME }}
-          DOCKER_TOKEN: ${{ secrets.SANTHOSHRAJU06_PASSWORD }}
-        run: |
-          if [ -z "$DOCKER_USERNAME" ]; then
-            echo "❌ DOCKER_USERNAME is empty"
-            exit 1
-          fi
-
-          if [ -z "$DOCKER_TOKEN" ]; then
-            echo "❌ DOCKER_TOKEN is empty"
-            exit 1
-          fi
-
-          echo "✅ Docker username is present"
-          echo "✅ Docker token is present"
-          echo "Username length: ${#DOCKER_USERNAME}"
-          echo "Token length: ${#DOCKER_TOKEN}"
-
-
       - name: Log in to Docker Hub
         env:
           DOCKER_USERNAME: ${{ secrets.SANTHOSHRAJU06_USERNAME }}
