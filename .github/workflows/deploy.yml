@@ -17,7 +17,9 @@ jobs:
             DOCKER_USERNAME: ${{ secrets.SANTHOSHRAJU06_USERNAME }}
             DOCKER_TOKEN: ${{ secrets.SANTHOSHRAJU06_PASSWORD }} 
           run: | 
-            printf '%s' "$DOCKER_TOKEN" | docker login \ --username "$DOCKER_USERNAME" \ --password-stdin
+            printf '%s' "$DOCKER_TOKEN" | docker login \ 
+              --username "$DOCKER_USERNAME" \ 
+              --password-stdin
 
         - name: Build and Push Docker Image
           uses: docker/build-push-action@v6
