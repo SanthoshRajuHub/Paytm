@@ -19,13 +19,12 @@ jobs:
             password: ${{secrets.SANTHOSHRAJU06_PASSWORD}}
 
         - name: Build and Push Docker Image
-          uses: docker/build-push-action@v2
+          uses: docker/build-push-action@v6
           with:
             context: .
-            files: ./docker/Dockerfile.userApp
+            file: ./docker/Dockerfile.userApp
             push: true
-            tags: santhoshraju06/paytm
+            tags: santhoshraju06/paytm:latest
 
-        - name: Verify Pushed Image
-          run: docker push santhoshraju06/paytm
+    
           
