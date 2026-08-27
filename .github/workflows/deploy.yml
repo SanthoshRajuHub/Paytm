@@ -1,33 +1,51 @@
 name: Build and Deploy to Docker Hub
 
-on: 
-    push:
-        branches:
-            - main
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-    Build-and-push:
-        runs-on: ubuntu-latest
-        steps:
-        - name: Check Out Repo
-          uses: actions/checkout@v4
+  Build-and-push:
+    runs-on: ubuntu-latest
 
-        - name: Log in to Docker Hub 
-          env: 
-            DOCKER_USERNAME: ${{ secrets.SANTHOSHRAJU06_USERNAME }}
-            DOCKER_TOKEN: ${{ secrets.SANTHOSHRAJU06_PASSWORD }} 
-          run: | 
-            printf '%s' "$DOCKER_TOKEN" | docker login \ 
-              --username "$DOCKER_USERNAME" \ 
-              --password-stdin
+    steps:
+      - name: Check Out Repo
+        uses: actions/checkout@v4
 
-        - name: Build and Push Docker Image
-          uses: docker/build-push-action@v6
-          with:
-            context: .
-            file: ./docker/Dockerfile.userApp
-            push: true
-            tags: santhoshraju06/paytm:latest
+      - name: Check Docker credentials
+        env:
+          DOCKER_USERNAME: ${{ secrets.SANTHOSHRAJU06_USERNAME }}
+          DOCKER_TOKEN: ${{ secrets.SANTHOSHRAJU06_PASSWORD }}
+        run: |
+          if [ -z "$DOCKER_USERNAME" ]; then
+            echo "❌ DOCKER_USERNAME is empty"
+            exit 1
+          fi
 
-    
-          
+          if [ -z "$DOCKER_TOKEN" ]; then
+            echo "❌ DOCKER_TOKEN is empty"
+            exit 1
+          fi
+
+          echo "✅ Docker username is present"
+          echo "✅ Docker token is present"
+          echo "Username length: ${#DOCKER_USERNAME}"
+          echo "Token length: ${#DOCKER_TOKEN}"
+
+      - name: Log in to Docker Hub
+        env:
+          DOCKER_USERNAME: ${{ secrets.SANTHOSHRAJU06_USERNAME }}
+          DOCKER_TOKEN: ${{ secrets.SANTHOSHRAJU06_PASSWORD }}
+        run: |
+          printf '%s' "$DOCKER_TOKEN" | docker login \
+            --username "$DOCKER_USERNAME" \
+            --password-stdin
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ./docker/Dockerfile.userApp
+          push: true
+          tags: santhoshraju06/paytm:latest
