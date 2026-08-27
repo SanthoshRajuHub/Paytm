@@ -1,0 +1,31 @@
+name: Build and Deploy to Docker Hub
+
+on: 
+    push:
+        branches:
+            - main
+
+jobs:
+    Build-and-push:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Check Out Repo
+          uses: actions/checkout@v2
+
+        - name: Log in to Docker Hub
+          uses: docker/login-action@v1
+          with:
+            username: ${{secrets.SANTHOSHRAJU06_USERNAME}}
+            password: ${{secrets.SANTHOSHRAJU06_PASSWORD}}
+
+        - name: Build and Push Docker Image
+          uses: docker/build-push-action@v2
+          with:
+            context: .
+            files: ./docker/Dockerfile.userApp
+            push: true
+            tags: santhoshraju06/paytm
+
+        - name: Verify Pushed Image
+          run: docker push santhoshraju06/paytm
+          
