@@ -29,3 +29,15 @@ jobs:
           file: ./docker/Dockerfile.userApp
           push: true
           tags: santhoshraju06/paytm:latest
+
+      - name: Deploy To EC2
+        uses: appleboy/ssh-actions@master
+        with:
+           host: ${{ secrets.SSH_HOST }}
+           username: ${{ secrets.SSH_USERNAME}}
+           key: ${{ secrets.SSH_KEY }}
+           scripts: |
+                sudo docker pull santhoshraju06/paytm:latest
+                sudo docker stop paytm || true
+                sudo docker rm paytm || true
+                sudo docker run -d -p 3005:3000 santhoshraju06/paytm:latest
