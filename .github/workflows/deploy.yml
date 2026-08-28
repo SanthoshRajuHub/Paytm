@@ -31,7 +31,7 @@ jobs:
           tags: santhoshraju06/paytm:latest
 
       - name: Deploy To EC2
-        uses: appleboy/ssh-actions@master
+        uses: appleboy/ssh-action@v1.0.3
         with:
            host: ${{ secrets.SSH_HOST }}
            username: ${{ secrets.SSH_USERNAME}}
